@@ -6,14 +6,8 @@
 
 ## 1. 基础语法
 
-- JavaScript **区分大小写**：`Früh` 和 `früh` 是两个不同的变量
-- 支持 Unicode 字符作为变量名
+- JavaScript **区分大小写**
 - 语句用分号 `;` 分隔，最佳实践是**始终手动加分号**
-
-```javascript
-const Früh = "foobar";  // OK
-const früh = "different";  // 和 Früh 是不同的变量
-```
 
 ## 2. 注释
 
@@ -24,9 +18,6 @@ const früh = "different";  // 和 Früh 是不同的变量
   多行注释
 */
 ```
-
-- ⚠️ JavaScript **不支持嵌套注释**，第一个 `*/` 就会结束注释
-- `#!/usr/bin/env node` — Hashbang 注释，指定脚本执行引擎
 
 ## 3. 变量声明：var / let / const
 
@@ -81,9 +72,6 @@ const person = { name: "张三" };
 person.name = "李四";  // OK
 person.age = 25;       // OK
 person = {};           // TypeError: 不能重新赋值
-
-const arr = [1, 2];
-arr.push(3);  // OK
 ```
 
 ## 4. 数据类型
@@ -100,13 +88,15 @@ JavaScript 有 **8 种数据类型**：
 | Number | 整数或浮点数 | `42` / `3.14` |
 | BigInt | 任意精度整数 | `9007199254740992n` |
 | String | 文本字符序列 | `"hello"` |
-| Symbol | 唯一且不可变 | `Symbol()` |
+| Symbol | 唯一标识符（用于对象属性键） | `Symbol()` |
 
 ### 引用类型（1 种）
 
 | 类型 | 说明 |
 |------|------|
 | Object | 键值对的集合 |
+
+> BigInt 和 Symbol 日常开发很少直接用，了解即可。
 
 ## 5. 类型转换
 
@@ -132,19 +122,7 @@ parseFloat("3.14")    // 3.14
 
 > 最佳实践：`parseInt` 始终传入第二个参数（进制）。
 
-## 6. 函数提升
-
-函数声明会被**完整提升**，可以在声明之前调用：
-
-```javascript
-sayHello();  // "Hello!"
-
-function sayHello() {
-    console.log("Hello!");
-}
-```
-
-## 7. 模板字符串
+## 6. 模板字符串
 
 ES6 引入，用反引号 `` ` `` 包裹：
 
@@ -159,7 +137,7 @@ let multiLine = `第一行
 第三行`;
 ```
 
-## 8. 字符串基础
+## 7. 字符串基础
 
 ```javascript
 // 单引号或双引号
@@ -177,13 +155,52 @@ let b = "world";
 
 ---
 
-## 快速自测
+## 快速自测（问答参考答案）
 
-1. `var` 的作用域是什么？`let` 呢？
-2. `if (true) { var x = 5; } console.log(x);` 输出什么？
-3. `console.log(a); var a = 3;` 输出什么？
-4. `console.log(b); let b = 3;` 输出什么？
-5. `"37" + 7` 和 `"37" - 7` 分别等于什么？
-6. `const` 声明的对象能修改属性吗？
-7. JavaScript 有哪 8 种数据类型？
-8. 模板字符串如何插入变量？
+<details>
+<summary>1. var 的作用域是什么？let 呢？</summary>
+
+`var` 是函数作用域，`let` 是块级作用域。
+</details>
+
+<details>
+<summary>2. if (true) { var x = 5; } console.log(x); 输出什么？</summary>
+
+`5` — `var` 不受 `{}` 块限制。
+</details>
+
+<details>
+<summary>3. console.log(a); var a = 3; 输出什么？</summary>
+
+`undefined` — `var` 变量提升，声明提前但赋值没提前。
+</details>
+
+<details>
+<summary>4. console.log(b); let b = 3; 输出什么？</summary>
+
+`ReferenceError` — `let` 有暂时性死区，不会提升。
+</details>
+
+<details>
+<summary>5. "37" + 7 和 "37" - 7 分别等于什么？</summary>
+
+`"377"`（字符串拼接）和 `30`（数学运算）。
+</details>
+
+<details>
+<summary>6. const 声明的对象能修改属性吗？</summary>
+
+能。`const` 禁止重新赋值，但对象属性/数组元素可以修改。
+</details>
+
+<details>
+<summary>7. JavaScript 有哪 8 种数据类型？</summary>
+
+Boolean、null、undefined、Number、BigInt、String、Symbol（7 种基本类型）+ Object（引用类型）。
+</details>
+
+<details>
+<summary>8. 模板字符串如何插入变量？</summary>
+
+用 `${变量名}` 语法，如 `` `你好，${name}！` ``。
+</details>

@@ -1,3 +1,3 @@
-Promise.resolve().then(() => console.log("microtask"));
-setTimeout(() => console.log("macrotask"), 0);
-console.log("sync");
+arr = [1,2,3]
+let [a,b] =[...arr] 
+console.log(a,b) // 输出 1 2
