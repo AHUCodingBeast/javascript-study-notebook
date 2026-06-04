@@ -93,7 +93,8 @@ const timerId = setTimeout(() => {
 // ---------- 6. Object 静态方法 ----------
 console.log("\n--- Object 静态方法 ---");
 const sampleObj = { a: 1, b: 2, c: 3 };
-console.log(`Object.keys: ${Object.keys(sampleObj)}`);
+// Object.keys(sampleObj) 的返回值类型是数组，因为模板字符串里的 ${} 会自动调用值的 toString() 方法。数组的 toString() 等价于 .join(",")，所以方括号会被去掉，元素用逗号连接：
+console.log(`Object.keys: ${Object.keys(sampleObj)}`); // 输出 Object.keys: a,b,c
 console.log(`Object.values: ${Object.values(sampleObj)}`);
 console.log(`Object.entries: ${JSON.stringify(Object.entries(sampleObj))}`);
 
@@ -118,5 +119,7 @@ console.log(`repeat(2): "${str.repeat(2)}"`);
 console.log(`toLowerCase(): "${str.toLowerCase()}"`);
 
 // URL 编码
+// encodeURIComponent("你好 世界"): %E4%BD%A0%E5%A5%BD%20%E4%B8%96%E7%95%8C
 console.log(`\nencodeURIComponent("你好 世界"): ${encodeURIComponent("你好 世界")}`);
+// decodeURIComponent: 你好
 console.log(`decodeURIComponent: ${decodeURIComponent("%E4%BD%A0%E5%A5%BD")}`);

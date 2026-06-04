@@ -52,12 +52,12 @@ console.log(y);  // ReferenceError: y is not defined
 ### 3.2 变量提升 vs 暂时性死区
 
 ```javascript
-// var 变量提升
+// var 变量提升，只提升了声明 不提升赋值逻辑
 console.log(a);  // undefined
 var a = 3;
 
-// let 暂时性死区
-console.log(b);  // ReferenceError
+// b 其实也已经被提升，但处于 TDZ 中
+console.log(b);  // ReferenceError: Cannot access 'b' before initialization
 let b = 3;
 ```
 

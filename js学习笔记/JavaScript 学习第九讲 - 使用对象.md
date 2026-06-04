@@ -46,14 +46,42 @@ function Car(make, model, year) {
 const car1 = new Car("Ford", "Mustang", 1969);
 ```
 
-**方式三：Object.create() — 指定原型**
+#### 什么是原型？
+
+JS 中每个对象都有一个隐藏的 `[[Prototype]]` 链接，指向另一个对象（这个被指向的对象就叫"原型"）。当你访问一个对象的属性时：
+
+1. 先在对象**自身**找
+2. 没找到？去它的**原型**上找
+3. 原型上也没找到？去原型的原型继续找
+4. 一直找到 `null` 为止 — 这条链就是**原型链**
+
+```text
+对象 ──[[Prototype]]──→ 原型对象 ──[[Prototype]]──→ Object.prototype ──→ null
+   ↓ 找属性
+   自身属性
+```
+
+这其实就是 JS 的"继承"机制 — 对象通过原型链共享方法和属性。
+
+#### 理解 `Object.create()` 的作用
+
+`Object.create(proto)` 创建一个新对象，并把它的 `[[Prototype]]` 指向 `proto`。新对象可以访问 `proto` 上的所有属性和方法。
 
 ```javascript
-const Animal = { type: "Invertebrates", displayType() { console.log(this.type); } };
+const Animal = {
+    type: "Invertebrates",
+    displayType() { console.log(this.type); }
+};
+
+// fish 的原型指向 Animal
 const fish = Object.create(Animal);
 fish.type = "Fishes";
+
 fish.displayType();  // "Fishes"
+// 执行过程：fish 自身没有 displayType → 去原型 Animal 上找 → 找到了，调用 it
 ```
+
+对比 Java 思维：`Animal` 相当于父类，`fish` 相当于子类实例。但 JS 没有"类"，是用原型链实现同样的效果。
 
 ### 3. 枚举对象属性
 

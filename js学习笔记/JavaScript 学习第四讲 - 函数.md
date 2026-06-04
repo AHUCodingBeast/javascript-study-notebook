@@ -50,23 +50,130 @@ const greet2 = (name) => {
 };
 ```
 
-**箭头函数的关键特性：`this` 词法绑定**
+#### 箭头函数的核心特性：`this` 词法绑定
 
-箭头函数**没有自己的 `this`**，继承定义时所在环境的 `this`。
+箭头函数**没有自己的 `this`**，它会从**定义它的那个作用域**中捕获 `this`，就像捕获一个普通变量一样。这个行为叫**词法绑定**（定义时绑定，不是调用时绑定）。
+
+**先理解：普通函数的 `this` 是怎么丢的？**
 
 ```javascript
-// ❌ 普通函数在回调中 this 会变
-setInterval(function() {
-    this.count++;  // ❌ this 指向 window
-}, 1000);
-
-// ✅ 箭头函数在回调中保 this
-setInterval(() => {
-    this.count++;  // ✅ this 仍然是 Counter 实例
-}, 1000);
+const obj = {
+    name: "张三",
+    say: function() {
+        console.log(this.name);  // ✅ "张三"
+    }
+};
+obj.say();  // this 指向 obj，没问题
 ```
 
-⚠️ 箭头函数**不适合做对象/类的方法**，因为它没有自己的 `this`。
+```javascript
+const obj = {
+    name: "张三",
+    greet: function() {
+        setTimeout(function() {
+            console.log(this.name);  // ❌ undefined (this 指向 window)
+        }, 100);
+    }
+};
+obj.greet();
+```
+
+为什么会这样？因为普通函数的 `this` 是**调用时决定的**，不是定义时决定的。`setTimeout` 内部调用那个回调函数时，它不是在 `obj` 上调用的，所以 `this` 变成了 `window`（非严格模式）或 `undefined`（严格模式）。
+
+**箭头函数的解法：**
+
+```javascript
+const obj = {
+    name: "张三",
+    greet: function() {
+        setTimeout(() => {
+            console.log(this.name);  // ✅ "张三"
+        }, 100);
+    }
+};
+obj.greet();
+```
+
+箭头函数定义在 `greet()` 内部，它捕获的是 `greet()` 执行时的 `this`（即 `obj`），所以即使 `setTimeout` 延迟调用，`this` 也不会变。
+
+**更常见的场景 — 类中的回调：**
+
+```javascript
+class Counter {
+    count = 0;
+
+    start() {
+        // ❌ 普通函数回调：this 丢失
+        setInterval(function() {
+            this.count++;  // ❌ TypeError: Cannot read property 'count' of undefined
+        }, 1000);
+
+        // ✅ 箭头函数回调：this 保留
+        setInterval(() => {
+            this.count++;  // ✅ this 仍然是 Counter 实例
+        }, 1000);
+    }
+}
+```
+
+#### ⚠️ 箭头函数不适合做对象/类的方法
+
+原因恰恰和上面相反 — 方法需要 `this` **随调用者变化**，但箭头函数的 `this` 在定义时就固定了，不会变。
+
+```javascript
+// ❌ 对象方法用箭头函数
+const obj = {
+    name: "张三",
+    say: () => {
+        console.log(this.name);  // ❌ undefined，this 指向外层 window
+    }
+};
+obj.say();
+```
+
+箭头函数定义在对象字面量里时，它捕获的是**定义对象时所在的作用域**（通常是全局 window），而不是对象本身。
+
+```javascript
+// ❌ 类字段箭头函数做方法（虽然 class fields 写法常见，但有坑）
+class Person {
+    name = "李四";
+    say = () => {
+        console.log(this.name);  // 能用，但 say 不再是原型方法
+    }
+}
+// 每个实例都有独立的 say 函数拷贝，浪费内存
+// 且无法通过 super.say() 被子类覆盖
+```
+
+```javascript
+// ✅ 类方法应该用普通函数（或简写方法）
+class Person {
+    name = "李四";
+    say() {  // 等同于 say: function()
+        console.log(this.name);  // ✅ this 指向调用该方法的实例
+    }
+}
+```
+
+#### `this` 绑定时机对比
+
+| 关键字       | `this` 绑定时机          | 适合场景             |
+|--------------|:------------------------:|----------------------|
+| `function()` | **调用时**决定           | 对象方法、类方法     |
+| `() => {}`   | **定义时**捕获（词法）   | 回调函数、嵌套函数   |
+
+#### 什么时候用箭头函数？
+
+- ✅ **回调函数** — `setTimeout`, `setInterval`, 事件监听, Promise `.then()`
+- ✅ **数组方法回调** — `.map()`, `.filter()`, `.reduce()` 等
+- ✅ **嵌套函数** — 需要访问外层 `this` 时
+
+#### 什么时候不用箭头函数？
+
+- ❌ **对象方法** — `const obj = { say: () => {} }`
+- ❌ **类的方法** — `class A { method() { ... } }` 用简写方法，不用 `=>`
+- ❌ **构造函数** — 箭头函数没有 `[[Construct]]`，不能 `new`
+- ❌ **需要 `arguments` 的函数** — 箭头函数没有 `arguments`，用 `...args` 替代
 
 ### 3. 函数参数
 

@@ -48,14 +48,18 @@ console.log("\n--- 迭代方法 ---");
 
 console.log(`map(x*2): [${nums2.map(x => x * 2)}]`);
 console.log(`filter(x>3): [${nums2.filter(x => x > 3)}]`);
-console.log(`find(x>3): ${nums2.find(x => x > 3)}`);
+console.log(`find(x>3): ${nums2.find(x => x > 3)}`); // 只返回第一个匹配的元素 
 console.log(`every(x>0): ${nums2.every(x => x > 0)}`);
 console.log(`some(x>3): ${nums2.some(x => x > 3)}`);
 console.log(`reduce(sum): ${nums2.reduce((a, b) => a + b, 0)}`);
 
-// forEach — 注意返回值是 undefined
+// forEach — 注意返回值是 undefined，此外这种写法对 nums2 其实也没任何影响
 const result = nums2.forEach(x => x * 2);
 console.log(`forEach 返回值: ${result}`);  // undefined
+
+// const nums2 = [1, 2, 3];
+// nums2.forEach((x, i) => { nums2[i] = x * 2; });
+// console.log(nums2);    // [2, 4, 6] — 原数组被改了
 
 // ---------- 7. sort ----------
 console.log("\n--- sort ---");

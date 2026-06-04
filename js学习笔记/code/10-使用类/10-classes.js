@@ -12,6 +12,7 @@ class Color {
     }
 
     toHex() {
+        // 把数字转成十六进制 如果不足 2 位，前面补 0
         const toHex2 = (n) => n.toString(16).padStart(2, "0");
         return `#${toHex2(this.r)}${toHex2(this.g)}${toHex2(this.b)}`;
     }
@@ -86,8 +87,8 @@ class Dog extends Animal {
         this.breed = breed;
     }
 
-    // 方法覆盖 + super
-    override speak() {
+    // 方法覆盖 + super（JS 直接写方法名即可覆盖）
+    speak() {
         return `${super.speak()}, ${this.name} 汪汪叫！`;
     }
 }

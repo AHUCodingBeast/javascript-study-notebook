@@ -31,6 +31,7 @@ const city = user.address.city;
 const city = user?.address?.city;  // "北京"
 
 // 也可用于函数调用和数组访问
+// ?.()：安全调用函数（如果前面拿到的是 null/undefined 则不执行，返回 undefined）。
 const result = api?.getData?.();
 const first = arr?.[0];
 ```
