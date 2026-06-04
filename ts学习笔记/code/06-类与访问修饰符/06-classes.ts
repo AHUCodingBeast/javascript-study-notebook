@@ -100,10 +100,10 @@ interface Printable {
     print(): string;
 }
 
-class Document implements Printable {
+class MyDocument implements Printable {
     constructor(public content: string) {}
     print(): string { return this.content; }
 }
 
-const doc = new Document("Hello TypeScript!");
+const doc = new MyDocument("Hello TypeScript!");
 console.log(doc.print());

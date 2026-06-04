@@ -84,7 +84,7 @@ type Status = "active" | "inactive" | "pending";
 type Coordinate = [number, number];
 type ID = string | number;
 
-const status: Status = "active";
+const userStatus: Status = "active";
 const coord: Coordinate = [10, 20];
 const id: ID = "abc-123";
 console.log(`status: ${status}, coord: (${coord}), id: ${id}`);
@@ -94,12 +94,12 @@ interface Printable {
     print(): string;
 }
 
-class Document implements Printable {
+class MyDocument implements Printable {
     constructor(public content: string) {}
     print(): string { return this.content; }
 }
 
-const doc = new Document("Hello, TypeScript!");
+const doc = new MyDocument("Hello, TypeScript!");
 console.log(doc.print());
 
 // ---------- 9. 结构类型（Duck Typing） ----------

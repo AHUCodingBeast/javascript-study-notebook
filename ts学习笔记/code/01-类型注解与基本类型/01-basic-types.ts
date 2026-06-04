@@ -4,7 +4,7 @@
 // ============================================================
 
 // ---------- 1. 基本类型 ----------
-let name: string = "张三";
+let userName: string = "张三";
 let age: number = 25;
 let isActive: boolean = true;
 let nothing: null = null;

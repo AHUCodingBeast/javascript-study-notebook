@@ -160,6 +160,17 @@ pair[1];    // number
 pair.push(3);  // OK（TS 4.x 之后允许 push）
 ```
 
+[string, number] 表示：
+
+位置 0 必须是 string  
+位置 1 必须是 number  
+顺序不能换，类型不能混  
+
+["张三", 25]    // ✅ 对  
+[25, "张三"]    // ❌ 错 — 顺序反了  
+["张三", "25"]  // ❌ 错 — 第二个应该是 number  
+和 Array<string | number>（数组，长度不限，元素随便混）完全不同。  
+
 ---
 
 ## 9. 联合类型

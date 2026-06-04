@@ -82,46 +82,9 @@ let stringBox: Box<string> = { content: "hello" };
 
 ---
 
-## 5. 泛型工具类型
+## 5. 实用工具类型
 
-### Partial<T> — 所有属性变为可选
-
-```typescript
-interface User { name: string; email: string; age: number; }
-let partialUser: Partial<User> = { name: "张三" };
-```
-
-### Pick<T, K> — 选部分属性
-
-```typescript
-let nameAndEmail: Pick<User, "name" | "email"> = {
-    name: "张三", email: "zhang@example.com",
-};
-```
-
-### Omit<T, K> — 排除部分属性
-
-```typescript
-let userWithoutAge: Omit<User, "age"> = {
-    name: "张三", email: "zhang@example.com",
-};
-```
-
-### Record<K, V> — 键值对映射
-
-```typescript
-let scores: Record<string, number> = { math: 95, english: 88 };
-```
-
-### 速查表
-
-| 工具类型 | 作用 | Java 近似 |
-| ------ | ------ | ------ |
-| `Partial<T>` | 所有属性可选 | Lombok `@Builder` |
-| `Pick<T, K>` | 选部分属性 | 新定义接口 |
-| `Omit<T, K>` | 排除部分属性 | 新定义接口 |
-| `Record<K, V>` | 键值对映射 | `Map<K, V>` |
-| `Readonly<T>` | 所有属性只读 | `Collections.unmodifiableXxx` |
+TS 内置的 `Partial<T>`、`Pick<T, K>`、`Omit<T, K>`、`Record<K, V>` 等工具类型虽然也是泛型实现的，但内容较多，单独放在**第八讲 — 实用工具类型**中讲解。
 
 ---
 
@@ -167,13 +130,7 @@ let [x, y] = goodSwap(1, "hello");  // x 是 string, y 是 number
 </details>
 
 <details>
-<summary>5. Partial<User> 和 Pick<User, "name" | "email"> 分别做了什么？</summary>
+<summary>5. 泛型函数 swap(a: T, b: U): [U, T] 调用 swap(1, "hello") 时，T 和 U 分别是什么？</summary>
 
-Partial：所有属性变可选；Pick：只保留指定的属性。
-</details>
-
-<details>
-<summary>6. Record<string, number> 对应 Java 中的什么类型？</summary>
-
-`Map<String, Integer>`。
+`T = number`, `U = string`，返回值类型是 `[string, number]`。泛型保留了每个位置的类型信息。
 </details>
